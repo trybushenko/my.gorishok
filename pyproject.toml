@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "my-gorishok"
+version = "0.1.0"
+description = "Welcome to the Python Poetry setup for our e-commerce project, where the flavors of nuts, dried fruits, and candies await discovery. With Django as our framework and MySQL as our database, our Poetry file ensures seamless dependency management for developers, simplifying the setup process and allowing for rapid iteration. From installation to deployment, let our Poetry setup be your guide in crafting a delightful online shopping experience for customers craving nature's finest treats."
+authors = ["trybushenko <tribushenko02@gmail.com>"]
+readme = "README.md"
+packages = [{include = "my"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "^5.0.3"
+mysqlclient = "^2.2.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -15,4 +15,4 @@ class Product(models.Model):
     quantity = models.IntegerField(default=0)
 
     def __str__(self) -> str:
-        return f'{self.category}, {self.name}'
+        return f'{self.category}: {self.name}'

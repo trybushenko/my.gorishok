@@ -1,0 +1,49 @@
+<!-- product_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Catalog</title>
+    <style>
+        /* CSS to create a grid layout with 3 products per row */
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .product-item {
+            width: calc(33.33% - 10px); /* Adjust width as needed */
+            margin-bottom: 20px;
+            /* You can add additional styling for each product item here */
+        }
+        .product-image {
+            width: 100%;
+            height: auto;
+        }
+        .product-link {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <h1>Продуктовий каталог</h1>
+    <ul class="product-list">
+        {% for product in products %}
+        <li class="product-item">
+            <a href="{% url 'product_catalog:product_detail' product.pk %}" class="product-link">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                {% endif %}
+                <h2>{{ product.name }}</h2>
+                <p>Ціна: {{ product.price }}</p>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+

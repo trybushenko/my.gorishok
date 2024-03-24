@@ -19,6 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(('apps.product_catalog.urls', 'product_catalog'), namespace='catalog')),
-    path('catalog/', include(('apps.product_catalog.urls', 'product_catalog'), namespace='catalog'))
+    path('product_catalog/', include(('apps.product_catalog.urls', 'product_catalog'), namespace='product_catalog')),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]

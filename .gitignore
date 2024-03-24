@@ -277,7 +277,7 @@ pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/django,python,venv
 
-./apps/product_catalog/static
-./apps/product_catalog/static/candies
-./apps/product_catalog/static/dried_fruits
-./apps/product_catalog/static/nuts
+apps/product_catalog/static/dried_fruits/*.JPG
+apps/product_catalog/static/nuts/*.JPG
+apps/product_catalog/static/nuts/*.JPEG
+

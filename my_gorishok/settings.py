@@ -39,9 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Custom Apps
-    'apps.product_catalog.apps.ProductCatalogConfig',
-    # Installed Apps
-    'debug_toolbar'
+    'apps.product_catalog.apps.ProductCatalogConfig'
 ]
 
 MIDDLEWARE = [
@@ -151,7 +149,7 @@ if DEBUG:
     INSTALLED_APPS += [
         'debug_toolbar',
     ]
-    
+
     MIDDLEWARE += [
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     ]

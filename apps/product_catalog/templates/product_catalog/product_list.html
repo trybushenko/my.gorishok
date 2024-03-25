@@ -3,27 +3,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Product Catalog</title>
+    <title>Product List</title>
     <style>
-        /* CSS to create a grid layout with 3 products per row */
+        /* Reset default padding and margin */
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Container for the product list */
         .product-list {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: flex-start;
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        .product-item {
-            width: calc(33.33% - 10px); /* Adjust width as needed */
-            margin-bottom: 20px;
-            /* You can add additional styling for each product item here */
+
+        /* Individual product container */
+        .product {
+            width: calc(33.33% - 20px); /* One product per row with padding and border */
+            margin-bottom: 40px; /* Spacing between rows */
+            border: 1px solid #ddd; /* Border around the product */
+            padding: 20px;
+            box-sizing: border-box; /* Include padding and border in width calculation */
         }
+
+        /* Product image */
         .product-image {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
+            width: 100%;
+            height: auto;
         }
+
+        /* Product name */
+        .product-name {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Product description */
+        .product-description {
+            margin-top: 5px;
+            color: #555;
+        }
+
+        /* Product price */
+        .product-price {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Buy now button */
+        .buy-now-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect for the buy now button */
+        .buy-now-button:hover {
+            background-color: #45a049;
+        }
+
         .product-link {
             text-decoration: none;
             color: inherit;
@@ -31,20 +83,24 @@
     </style>
 </head>
 <body>
-    <h1>Продуктовий каталог</h1>
+    <h1><center>Продуктовий каталог</center></h1>
     <ul class="product-list">
         {% for product in products %}
-        <li class="product-item">
-            <a href="{% url 'product_catalog:product_detail' product.pk %}" class="product-link">
-                {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                {% endif %}
-                <h2>{{ product.name }}</h2>
-                <p>Ціна: {{ product.price }}</p>
-            </a>
-        </li>
+            <li class="product">
+                <a href="{% url 'product_catalog:product_detail' product.pk %}" class="product-link">
+                    <!-- Product image -->
+                    {% if product.images.all %}
+                        {% with first_image=product.images.first %}
+                            <img src="{{ first_image.image.url }}" alt="{{ product.name }}" class="product-image">
+                        {% endwith %}
+                    {% endif %}
+                    <!-- Product name -->
+                    <div class="product-name">{{ product.name }}</div>
+                    <!-- Product price -->
+                    <div class="product-price">Ціна: {{ product.price }} грн.</div>
+                </a>
+            </li>
         {% endfor %}
     </ul>
 </body>
 </html>
-

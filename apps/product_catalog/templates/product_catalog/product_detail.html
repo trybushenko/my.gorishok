@@ -1,0 +1,55 @@
+<!-- product_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
+    <style>
+        /* Center content vertically and horizontally */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .product-container {
+            text-align: center;
+        }
+        .product-image {
+            max-width: 100%; /* Set maximum width to avoid distortion */
+            max-height: 300px; /* Set maximum height to maintain proportions */
+            margin-bottom: 20px;
+        }
+        .product-description {
+            margin-bottom: 20px;
+        }
+        .product-price {
+            margin-bottom: 20px;
+        }
+        .buy-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .buy-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="product-container">
+        <h1>{{ product.name }}</h1>
+        {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+        {% endif %}
+        <p class="product-description">{{ product.description }}</p>
+        <p class="product-price">Price: {{ product.price }}</p>
+        <button class="buy-button">Buy</button>
+    </div>
+</body>
+</html>

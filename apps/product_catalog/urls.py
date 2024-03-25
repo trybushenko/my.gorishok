@@ -1,3 +1,5 @@
+from django.conf.urls.static import static
+from django.conf import settings
 from django.urls import path
 
 from . import views
@@ -5,6 +7,6 @@ from . import views
 app_name = 'product_catalog'
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('catalog/', views.catalog, name='catalog')
+    path('', views.ProductView.as_view(), name='products_list'),
+    path('product/<int:pk>/', views.ProductDetailView.as_view(), name='product_detail'),
 ]

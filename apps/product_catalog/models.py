@@ -1,8 +1,12 @@
 from django.db import models
+from django.utils.text import slugify
+from django.urls import reverse
     
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField(default='', null=False)
+    image = models.ImageField(upload_to='categories/', null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name

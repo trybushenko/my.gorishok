@@ -1,0 +1,45 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Category Listing</title>
+    <style>
+        .category-tile {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            width: 30%;
+            display: inline-block;
+            text-align: center;
+        }
+        .category-link {
+            text-decoration: none;
+            color: inherit;
+        }
+        .category-image {
+            width: 100%;
+            height: auto;
+        }
+        .centered-text {
+            text-align: center; /* Horizontal centering */
+            line-height: /* Set to match the height of the container */; /* Vertical centering */
+        }
+    </style>
+</head>
+<body>
+    <h1 class="centered-text">{% trans "Categories" %}</h1>
+    <div class="centered-text">
+    {% for category in categories %}
+        <a href="{% url 'product_catalog:product_list' category.slug %}" class="category-link">
+            <div class="category-tile">
+                {% if category.image %}
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image">
+                {% endif %}
+                <h2>{% trans category.name %}</h2>
+            </div>
+        </a>
+    {% endfor %}
+    </div>
+</body>
+</html>

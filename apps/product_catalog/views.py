@@ -2,12 +2,28 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.http import HttpResponse
 from django.views.generic.list import ListView
-from django.urls import reverse
 from django.views.generic import DetailView
+from django.utils.translation import gettext_lazy as _
 
-from .models import Product
+from .models import Product, Category
 
 # Create your views here.
+
+class CategoryView(ListView):
+    model = Category
+    template_view = 'product_catalog/category_list.html'
+    context_object_name = 'categories'
+
+    def get_queryset(self):
+        _(Category.name)
+        return Category.objects.all()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        translated_categories = [(category.id, _(category.name)) for category in context['categories']]
+        context['translated_categories'] = translated_categories
+        return context
+    
 
 class ProductView(ListView):
     model = Product
@@ -15,7 +31,10 @@ class ProductView(ListView):
     context_object_name = 'products'
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Product.objects.order_by('name')
+        category_slug = self.kwargs.get('category')
+
+        category = Category.objects.get(slug=category_slug)
+        return Product.objects.filter(category_id=category.id).order_by('name')
     
 class ProductDetailView(DetailView):
     model = Product

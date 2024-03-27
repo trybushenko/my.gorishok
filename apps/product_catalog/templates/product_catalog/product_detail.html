@@ -23,6 +23,10 @@
         }
         .product-description {
             margin-bottom: 20px;
+            width: 50%; /* Set width to half of the display */
+            margin: 0 auto; /* Center the description horizontally */
+            border: 1px solid #ccc; /* Add border */
+            padding: 20px; /* Add padding */
         }
         .product-price {
             margin-bottom: 20px;
@@ -44,12 +48,12 @@
 <body>
     <div class="product-container">
         <h1>{{ product.name }}</h1>
-        {% if product.image %}
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-        {% endif %}
-        <p class="product-description">{{ product.description }}</p>
-        <p class="product-price">Price: {{ product.price }}</p>
-        <button class="buy-button">Buy</button>
+        {% for image_association in product.images.all %}
+            <img src="{{ image_association.image.url }}" alt="{{ product.name }}" class="product-image">
+        {% endfor %}
+            <p class="product-description">{{ product.description }}</p>
+        <p class="product-price">Ціна: {{ product.price }}</p>
+        <button class="buy-button">Купити зараз</button>
     </div>
 </body>
 </html>

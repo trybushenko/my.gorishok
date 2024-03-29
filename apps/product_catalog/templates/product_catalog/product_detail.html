@@ -58,11 +58,13 @@
 <div class="col mb-5">
     <div class="card h-100">
         <!-- Product image-->
+        <a href="{% url 'product_catalog:product_detail' category=related_product.category.slug pk=related_product.pk %}" class="product-link">
         {% if related_product.images.all %}
             {% with first_image=related_product.images.first %}
                 <img class="card-img-top" src="{{ first_image.image.url }}" alt="related {{ related_product.name }}" />
             {% endwith %}
         {% endif %}
+        </a>
         <!-- Product details-->
         <div class="card-body p-4">
             <div class="text-center">

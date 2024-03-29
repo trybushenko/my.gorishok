@@ -1,3 +1,5 @@
+import random
+
 from typing import Any
 from django.db.models.query import QuerySet
 from django.views.generic.list import ListView
@@ -34,6 +36,7 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product = self.object
-        related_products = Product.objects.filter(category=product.category).exclude(pk=product.pk)[:4]
+        related_products = Product.objects.filter(category=product.category).exclude(pk=product.pk)
+        related_products = random.sample(list(related_products), 4)
         context['related_products'] = related_products
         return context

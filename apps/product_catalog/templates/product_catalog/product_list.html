@@ -1,103 +1,53 @@
-<!-- product_list.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Product List</title>
-    <style>
-        /* Reset default padding and margin */
-        * {
-            box-sizing: border-box;
-            padding: 0;
-            margin: 0;
-        }
+{% extends "homepage.html" %}
+{% load i18n %}
 
-        /* Container for the product list */
-        .product-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
 
-        /* Individual product container */
-        .product {
-            width: calc(33.33% - 20px); /* One product per row with padding and border */
-            margin-bottom: 40px; /* Spacing between rows */
-            border: 1px solid #ddd; /* Border around the product */
-            padding: 20px;
-            box-sizing: border-box; /* Include padding and border in width calculation */
-        }
+{% block categories_name %}
+{% trans products.first.category.name %}
+{% endblock %}
 
-        /* Product image */
-        .product-image {
-            width: 100%;
-            height: auto;
-        }
+{% block under_categories_name %}
+{% trans "" %}
+{% endblock %}
 
-        /* Product name */
-        .product-name {
-            margin-top: 10px;
-            font-weight: bold;
-        }
+{% block main_page_link %}
+{% url 'product_catalog:category_list' %}
+{% endblock %}
 
-        /* Product description */
-        .product-description {
-            margin-top: 5px;
-            color: #555;
-        }
+{% block content %}
+{% for product in products %}
+<div class="col mb-5">
+    <a href="{% url 'product_catalog:product_detail' category=product.category.slug pk=product.pk %}" class="product-link">
+    <div class="card h-100">
+        <!-- Product image-->
+        {% if product.images.all %}
+            {% with first_image=product.images.first %}
+                <img class="card-img-top" src="{{ first_image.image.url }}" alt="{{ product.name }}" />
+            {% endwith %}
+        {% endif %}
+    </a>
+        <!-- Product details-->
+        <div class="card-body p-4">
+            <div class="text-center">
+                <!-- Product name-->
+                <h5 class="fw-bolder">{{ product.name }}</h5>
+                <!-- Product reviews-->
+                <div class="d-flex justify-content-center small text-warning mb-2">
+                </div>
+                <!-- Product price-->
+                {{ product.price }} {% trans 'UAH' %}
+            </div>
+        </div>
+        <!-- Product actions-->
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
 
-        /* Product price */
-        .product-price {
-            margin-top: 10px;
-            font-weight: bold;
-            color: #333;
-        }
 
-        /* Buy now button */
-        .buy-now-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        /* Hover effect for the buy now button */
-        .buy-now-button:hover {
-            background-color: #45a049;
-        }
-
-        .product-link {
-            text-decoration: none;
-            color: inherit;
-        }
-    </style>
-</head>
-<body>
-    <h1><center>Каталог</center></h1>
-    <ul class="product-list">
-        {% for product in products %}
-            <li class="product">
-                <a href="{% url 'product_catalog:product_detail' category=product.category.slug pk=product.pk %}" class="product-link">
-                    {% if product.images.all %}
-                        {% with first_image=product.images.first %}
-                            <img src="{{ first_image.image.url }}" alt="{{ product.name }}" class="product-image">
-                        {% endwith %}
-                    {% endif %}
-                    <div class="product-name">{{ product.name }}</div>
-                    <div class="product-price">Ціна: {{ product.price }} грн.</div>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% block rights %}
+{% trans "All rights reserved &copy; My Gorishok 2024" %}
+{% endblock %}

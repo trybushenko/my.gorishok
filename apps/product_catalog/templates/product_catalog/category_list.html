@@ -1,44 +1,45 @@
+{% extends "homepage.html" %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Category Listing</title>
-    <style>
-        .category-tile {
-            border: 1px solid #ccc;
-            padding: 20px;
-            margin: 10px;
-            width: 30%;
-            display: inline-block;
-            text-align: center;
-        }
-        .category-link {
-            text-decoration: none;
-            color: inherit;
-        }
-        .category-image {
-            width: 100%;
-            height: auto;
-        }
-        .centered-text {
-            text-align: center; /* Horizontal centering */
-        }
-    </style>
-</head>
-<body>
-    <h1 class="centered-text">{% trans "Categories" %}</h1>
-    <div class="centered-text">
-    {% for category in categories %}
-        <a href="{% url 'product_catalog:product_list' category.slug %}" class="category-link">
-            <div class="category-tile">
-                {% if category.image %}
-                    <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image">
-                {% endif %}
-                <h2>{% trans category.name %}</h2>
-            </div>
+
+
+{% block categories_name %}
+{% trans "Product's categories" %}
+{% endblock %}
+
+{% block under_categories_name %}
+{% trans "" %}
+{% endblock %}
+
+{% block main_page_link %}
+{% url 'product_catalog:category_list' %}
+{% endblock %}
+
+{% block content %}
+{% for category in categories %}
+<div class="col mb-5">
+    <a href="{% url 'product_catalog:product_list' category.slug %}" class="category-link">
+    <div class="card h-100">
+        <!-- Product image-->
+        <img class="card-img-top" src="{{ category.image.url }}" alt="{{ category.name }}" />
         </a>
-    {% endfor %}
+        <!-- Product details-->
+        <div class="card-body p-4">
+            <div class="text-center">
+                <!-- Product name-->
+                <h5 class="card-body">{% trans category.name %}</h5>
+            </div>
+        </div>
+        <!-- Product actions-->
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <!-- <h5 class="card-body">{% trans category.name %}</h5> -->
+            <!-- <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product_catalog:product_list' category.slug %}">{% trans "Explore" %}</a></div> -->
+        </div>
     </div>
-</body>
-</html>
+</div>
+{% endfor %}
+{% endblock %}
+
+
+{% block rights %}
+{% trans "All rights reserved &copy; My Gorishok 2024" %}
+{% endblock %}

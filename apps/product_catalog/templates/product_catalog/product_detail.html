@@ -1,59 +1,89 @@
-<!-- product_detail.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ product.name }}</title>
-    <style>
-        /* Center content vertically and horizontally */
-        html, body {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .product-container {
-            text-align: center;
-        }
-        .product-image {
-            max-width: 100%; /* Set maximum width to avoid distortion */
-            max-height: 300px; /* Set maximum height to maintain proportions */
-            margin-bottom: 20px;
-        }
-        .product-description {
-            margin-bottom: 20px;
-            width: 50%; /* Set width to half of the display */
-            margin: 0 auto; /* Center the description horizontally */
-            border: 1px solid #ccc; /* Add border */
-            padding: 20px; /* Add padding */
-        }
-        .product-price {
-            margin-bottom: 20px;
-        }
-        .buy-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .buy-button:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
-<body>
-    <div class="product-container">
-        <h1>{{ product.name }}</h1>
-        {% for image_association in product.images.all %}
-            <img src="{{ image_association.image.url }}" alt="{{ product.name }}" class="product-image">
-        {% endfor %}
-            <p class="product-description">{{ product.description }}</p>
-        <p class="product-price">Ціна: {{ product.price }}</p>
-        <button class="buy-button">Купити зараз</button>
+{% extends "shop_item.html" %}
+{% load i18n %}
+
+{% block main_page_link %}
+{% url 'product_catalog:category_list' %}
+{% endblock %}
+
+{% block product_section %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6">
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for image_association in product.images.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img class="d-block w-100" src="{{ image_association.image.url }}" alt="{{ forloop.counter }} slide">
+                            </div>
+                        {% endfor %}
+                        <!-- Add more carousel items as needed -->
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">{% trans 'Previous' %}</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">{% trans 'Next' %}</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Product details here -->
+                <div class="small mb-1">{% trans 'Category' %}: {% trans product.category.name %}</div>
+                <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
+                <div class="fs-5 mb-5">
+                    <!-- <span class="text-decoration-line-through">$45.00</span>
+                    <span>$40.00</span> -->
+                    {{ product.price }} {% trans 'UAH' %}
+                </div>
+                <p class="lead">{{ product.description }}</p>
+                <div class="d-flex">
+                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                        <i class="bi-cart-fill me-1"></i>
+                        {% trans 'Add to cart' %}
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</section>
+{% endblock %}
+
+
+{% block related_prods %}
+{% for related_product in related_products %}
+<div class="col mb-5">
+    <div class="card h-100">
+        <!-- Product image-->
+        <a href="{% url 'product_catalog:product_detail' category=related_product.category.slug pk=related_product.pk %}" class="product-link">
+        {% if related_product.images.all %}
+            {% with first_image=related_product.images.first %}
+                <img class="card-img-top" src="{{ first_image.image.url }}" alt="related {{ related_product.name }}" />
+            {% endwith %}
+        {% endif %}
+        </a>
+        <!-- Product details-->
+        <div class="card-body p-4">
+            <div class="text-center">
+                <!-- Product name-->
+                <h5 class="fw-bolder">{% trans related_product.name %}</h5>
+                <!-- Product price-->
+                {{ related_product.price }} {% trans 'UAH' %}
+            </div>
+        </div>
+        <!-- Product actions-->
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+
+{% block rights %}
+{% trans "All rights reserved &copy; My Gorishok 2024" %}
+{% endblock %}

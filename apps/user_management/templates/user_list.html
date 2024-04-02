@@ -1,0 +1,7 @@
+<!-- user_list.html -->
+{% for user in users %}
+  {% if not user.is_superuser %}
+  <p><a href="{% url 'user:update_user' pk=user.pk %}">{{ user }}</a>
+  <a href="{% url 'user:delete_user' pk=user.pk %}">(delete)</a></p>
+  {% endif %}
+{% endfor %}

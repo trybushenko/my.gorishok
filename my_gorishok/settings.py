@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Custom Apps
-    'apps.product_catalog.apps.ProductCatalogConfig'
+    'apps.product_catalog.apps.ProductCatalogConfig',
+    'apps.user_management.apps.UserManagementConfig'
 ]
 
 MIDDLEWARE = [
@@ -149,6 +150,7 @@ TEMPLATE_DIRS = (
     os.path.join(SETTINGS_PATH, 'templates'),
 )
 
+AUTH_USER_MODEL = 'user_management.User'
 
 if DEBUG:
     INSTALLED_APPS += [

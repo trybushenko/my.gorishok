@@ -22,6 +22,6 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('product_catalog/', include(('apps.product_catalog.urls', 'product_catalog'), namespace='product_catalog')),
-    path('user/', include(('apps.user_management.urls', 'user'), namespace='user')),
+    path('users/', include(('apps.user_management.urls', 'user'), namespace='user')),
     path("__debug__/", include("debug_toolbar.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -8,13 +8,13 @@ from .models import User
 # Create your views here.
 class CreateUser(LoginRequiredMixin, CreateView):
     model = User
-    fields = ['email', 'first_name', 'last_name', 'password']
+    fields = ('email', 'first_name', 'last_name', 'password')
     template_name = 'create_user.html'
     success_url = reverse_lazy('user:user_list')
 
 class UpdateUser(LoginRequiredMixin, UpdateView):
     model = User
-    fields = ['email', 'first_name', 'last_name', 'password']
+    fields = ('email', 'first_name', 'last_name', 'password')
     template_name = 'update_user.html'
     success_url = reverse_lazy('user:user_list')
 

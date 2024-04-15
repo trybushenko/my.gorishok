@@ -1,9 +1,6 @@
-{% extends "shop_item.html" %}
+{% extends "product_catalog/shop_item.html" %}
+{% load static %}
 {% load i18n %}
-
-{% block main_page_link %}
-{% url 'product_catalog:category_list' %}
-{% endblock %}
 
 {% block product_section %}
 <section class="py-5">
@@ -74,11 +71,17 @@
                 {{ related_product.price }} {% trans 'UAH' %}
             </div>
         </div>
+        
         <!-- Product actions-->
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+            <div class="text-center">
+                <a class="btn btn-outline-dark mt-auto" id="addToCartButton">
+                    Add to cart
+                </a>
+            </div>
         </div>
     </div>
+         
 </div>
 {% endfor %}
 {% endblock %}

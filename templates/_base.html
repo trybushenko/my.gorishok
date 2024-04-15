@@ -21,12 +21,13 @@
                 transition: transform 0.3s ease; /* Smooth transition */
             }
         </style>
+        
     </head>
     <body>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{% block main_page_link %}{% endblock %}">My Gorishok</a>
+                <a class="navbar-brand" href="{% url 'product_catalog:category_list' %}">My Gorishok</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
@@ -52,19 +53,7 @@
                 </div>
             </div>
         </nav>
-        <!-- Product section-->
-        {% block product_section %}
-        {% endblock %}
-        <!-- Related items section-->
-        <section class="py-5 bg-light">
-            <div class="container px-4 px-lg-5 mt-5">
-                <h2 class="fw-bolder mb-4">{% trans 'Related products' %}</h2>
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    {% block related_prods %}
-                    {% endblock %}
-                </div>
-            </div>
-        </section>
+        {% block main_content %} {% endblock %}
         <!-- Footer-->
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">{% block rights %}{% endblock %}</p></div>

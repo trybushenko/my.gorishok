@@ -1,4 +1,4 @@
-{% extends "homepage.html" %}
+{% extends "product_catalog/homepage.html" %}
 {% load i18n %}
 
 
@@ -8,10 +8,6 @@
 
 {% block under_categories_name %}
 {% trans "" %}
-{% endblock %}
-
-{% block main_page_link %}
-{% url 'product_catalog:category_list' %}
 {% endblock %}
 
 {% block content %}

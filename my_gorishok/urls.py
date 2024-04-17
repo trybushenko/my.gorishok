@@ -18,10 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # home page that redirects to product catalog
+    path('', RedirectView.as_view(url='product_catalog/', permanent=True), name='home'),
+    # product catalog that shows category list
     path('product_catalog/', include(('apps.product_catalog.urls', 'product_catalog'), namespace='product_catalog')),
-    path('users/', include(('apps.user_management.urls', 'user'), namespace='user')),
-    path("__debug__/", include("debug_toolbar.urls")),
+    # endpoint that is responsible for user management
+    path('accounts/', include('allauth.urls')),
+    path('admin/', admin.site.urls),
+    path('__debug__/', include('debug_toolbar.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

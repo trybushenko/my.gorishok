@@ -25,13 +25,13 @@ class AppUserAdmin(UserAdmin):
         }),
     )
     # Define which fields are displayed in the user list
-    list_display = ('email', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser')
+    list_display = ('email', 'first_name', 'last_name', 'is_active', 'is_superuser')
     # Define which fields can be used to search for users in the admin interface
     search_fields = ('email', 'first_name', 'last_name')
     # Define how users are ordered in the admin interface
     ordering = ('email', )
     
-    list_filter = ('is_active', 'is_staff', 'is_superuser',)  # Update this line
+    list_filter = ('is_active', 'is_superuser',)  # Update this line
 
 # Register your models here.
 admin.site.register(User, AppUserAdmin)

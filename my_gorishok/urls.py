@@ -26,9 +26,7 @@ urlpatterns = [
     # product catalog that shows category list
     path('product_catalog/', include(('apps.product_catalog.urls', 'product_catalog'), namespace='product_catalog')),
     # endpoint that is responsible for user management
-    path('users/', include(('apps.user_management.urls', 'user'), namespace='user')),
-    path('accounts/', include(('django.contrib.auth.urls', 'accounts'), namespace='accounts')),
-    path('', RedirectView.as_view(url='product_catalog/', permanent=True), name='guest_checkout'),
+    path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
     path('__debug__/', include('debug_toolbar.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

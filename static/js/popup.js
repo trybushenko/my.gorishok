@@ -1,14 +1,26 @@
-document.getElementById('addToCartButton').addEventListener('click', function(event) {
-  event.preventDefault(); // Prevent the default action of the button
+// Function to show the popup
+function showAuthPopup() {
   
-  // Read user's authentication status from the button's data attribute
-  var userAuthorized = this.dataset.userAuthorized === 'true';
-  
-  if (!userAuthorized) {
-      // If the user is not authorized, display the popup
-      document.getElementById('authPopup').style.display = 'block';
-  } else {
-      // If the user is authorized, proceed with the default action (e.g., add to cart)
-      // Add your code here for handling authorized user actions
-  }
+  document.getElementById('AuthPopup').style.display = 'block';
+}
+
+// Function to hide the popup
+function hideAuthPopup() {
+  document.getElementById('AuthPopup').style.display = 'none';
+}
+
+// Attach event listener to all buttons with the class "add-to-cart-button"
+document.querySelectorAll('.add-to-cart-button').forEach(button => {
+  button.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default button action
+      showAuthPopup(); // Show the authentication popup
+  });
+});
+
+// Attach event listener to the close button in the popup
+document.getElementById('closePopupButton').addEventListener('click', hideAuthPopup);
+
+document.getElementById('loginButton').addEventListener('click', function() {
+  // Implement your login function here
+  hideAuthPopup(); // Hide the popup after the login action
 });

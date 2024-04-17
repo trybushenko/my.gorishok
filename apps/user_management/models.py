@@ -44,9 +44,9 @@ class UserManager(BaseUserManager):
         return self.get(Q(email__iexact=username))
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(verbose_name='email', 
-                              max_length=255, unique=True, 
-                              error_messages={'unique' : 'Sorry, this email is already in use.'})
+    email = models.EmailField(verbose_name='email',
+                              max_length=255, unique=True,
+                              error_messages={'unique': 'Sorry, this email is already in use.'})
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
@@ -75,15 +75,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         :return: True if the user has privileges for app, False otherwise
         """
         return True
-        
-    # @property
-    # def is_staff(self):  # pragma: no cover
-    #     """
-    #     Check if this user has administrative privileges.
-
-    #     :return: True if the user is an admin, False otherwise
-    #     """
-    #     return True
     
     @admin.display(
         boolean=False,

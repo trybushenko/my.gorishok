@@ -191,6 +191,11 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_UNIQUE_EMAIL = True
 
+DEFAULT_FROM_EMAIL = 'admin@mygorishok.com'
+ACCOUNT_FORMS = {
+    'signup': 'apps.user_management.forms.CustomSignupForm',
+}
+
 if DEBUG:
     INSTALLED_APPS += [
         'debug_toolbar',

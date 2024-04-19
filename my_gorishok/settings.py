@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-iga4e=mmi)19uf&(*k1&zdip6jg*0+y-b=ftnc)30w1t^+u=2o'
+SECRET_KEY = os.getenv('ENV_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 
 # Application definition
@@ -89,13 +93,13 @@ WSGI_APPLICATION = 'my_gorishok.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'my_gorishok',
-        'USER' : 'djangouser',
-        'PASSWORD' : 'qwerty123',
-        'HOST' : 'localhost',
-        'PORT' : '3306',
+        'NAME': os.getenv('DB_NAME'),
+        'USER' : os.getenv('DB_USER'),
+        'PASSWORD' : os.getenv('DB_PASSWORD'),
+        'HOST' : os.getenv('DB_HOST'),
+        'PORT' : os.getenv('DB_PORT'),
         'TEST' : {
-            'NAME' : 'test_my_gorishok',
+            'NAME' : os.getenv('DB_TEST_NAME'),
         }
     }
 }
@@ -173,7 +177,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend'
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
 ACCOUNT_SESSION_REMEMBER = True
 
 ACCOUNT_USERNAME_REQUIRED = False
@@ -186,6 +190,11 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_UNIQUE_EMAIL = True
+
+DEFAULT_FROM_EMAIL = 'admin@mygorishok.com'
+ACCOUNT_FORMS = {
+    'signup': 'apps.user_management.forms.CustomSignupForm',
+}
 
 if DEBUG:
     INSTALLED_APPS += [

@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin)
 from django.contrib.auth.base_user import BaseUserManager
 from django.db.models import Q
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
@@ -43,15 +44,31 @@ class UserManager(BaseUserManager):
         """
         return self.get(Q(email__iexact=username))
 
+# TODO: https://fabric.inc/blog/commerce/shopping-cart-database-design
+class Address(models.Model):
+    residence_country = models.CharField(max_length=100, blank=True, null=True)
+    residence_city = models.CharField(max_length=100, blank=True, null=True)
+    residence_state = models.CharField(max_length=100, blank=True, null=True)
+    residence_street = models.CharField(max_length=100, blank=True, null=True)
+    residence_street_num = models.PositiveSmallIntegerField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name='email',
                               max_length=255, unique=True,
                               error_messages={'unique': 'Sorry, this email is already in use.'})
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('first_name', 'last_name')

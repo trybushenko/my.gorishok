@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # Local Custom Apps
     'apps.product_catalog.apps.ProductCatalogConfig',
     'apps.user_management.apps.UserManagementConfig',
+    'apps.cart.apps.CartConfig',
 ]
 
 MIDDLEWARE = [

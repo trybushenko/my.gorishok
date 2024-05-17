@@ -55,13 +55,6 @@ class Address(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
-    def save(self, *args, **kwargs):
-        # Set created_at when the user is created for the first time
-        if not self.id:
-            self.created_at = timezone.now()
-        self.modified_at = timezone.now()  # Update modified_at every time the user is saved
-        super().save(*args, **kwargs)
-
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name='email',
                               max_length=255, unique=True,
@@ -110,10 +103,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def __str__(self) -> str:
         return f'{self.first_name} {self.last_name}'
-    
-    def save(self, *args, **kwargs):
-        # Set created_at when the user is created for the first time
-        if not self.id:
-            self.created_at = timezone.now()
-        self.modified_at = timezone.now()  # Update modified_at every time the user is saved
-        super().save(*args, **kwargs)

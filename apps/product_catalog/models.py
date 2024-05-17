@@ -15,9 +15,6 @@ class Category(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
 
-        if not self.id:
-            self.created_at = timezone.now()
-        self.modified_at = timezone.now()
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:
@@ -34,13 +31,6 @@ class Image(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
-    def save(self, *args, **kwargs):
-        # Set created_at when the user is created for the first time
-        if not self.id:
-            self.created_at = timezone.now()
-        self.modified_at = timezone.now()  # Update modified_at every time the user is saved
-        super().save(*args, **kwargs)
-
     def __str__(self) -> str:
         return self.image.name
     
@@ -50,13 +40,6 @@ class Discount(models.Model):
     discount_percent = models.DecimalField(max_digits=5, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-
-    def save(self, *args, **kwargs):
-        # Set created_at when the user is created for the first time
-        if not self.id:
-            self.created_at = timezone.now()
-        self.modified_at = timezone.now()  # Update modified_at every time the user is saved
-        super().save(*args, **kwargs)
 
     class Meta:
         constraints = [
@@ -75,12 +58,6 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
-    def save(self, *args, **kwargs):
-        # Set created_at when the user is created for the first time
-        if not self.id:
-            self.created_at = timezone.now()
-        self.modified_at = timezone.now()  # Update modified_at every time the user is saved
-        super().save(*args, **kwargs)
     def __str__(self) -> str:
         return f'{self.category}: {self.name}'
     

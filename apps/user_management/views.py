@@ -1,28 +1,24 @@
-from django.shortcuts import render
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import User
+from django.shortcuts import redirect, render
+from django.contrib.auth import login
+from django.http import JsonResponse
+
+from .utils import create_guest_user
 
 # Create your views here.
-class CreateUser(LoginRequiredMixin, CreateView):
-    model = User
-    fields = ('email', 'first_name', 'last_name', 'password')
-    template_name = 'create_user.html'
-    success_url = reverse_lazy('user:user_list')
 
-class UpdateUser(LoginRequiredMixin, UpdateView):
-    model = User
-    fields = ('email', 'first_name', 'last_name', 'password')
-    template_name = 'update_user.html'
-    success_url = reverse_lazy('user:user_list')
+def account_profile(request):
+    return render(request, 'user_management/account_profile.html')
 
-class DeleteUser(LoginRequiredMixin, DeleteView):
-    model = User
-    template_name = 'delete_user.html'
-    success_url = reverse_lazy('user:user_list')
+def continue_as_guest(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        guest_user = create_guest_user()
+        guest_user.backend = 'allauth.account.auth_backends.AuthenticationBackend'
 
+        login(request, guest_user)
+        return JsonResponse({'redirect_url': '/cart/'})
+    else:
+        guest_user = create_guest_user()
+        guest_user.backend = 'allauth.account.auth_backends.AuthenticationBackend'
 
-def user_list(request):
-    users = User.objects.all()
-    return render(request, 'user_list.html', {'users' : users})
+        login(request, guest_user)
+        return redirect('cart:cart')

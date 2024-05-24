@@ -1,0 +1,57 @@
+{% extends "product_catalog/homepage.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block categories_name %}
+{% trans "Shop cart" %}
+{% endblock %}
+
+{% block under_categories_name %}
+{% trans "" %}
+{% endblock %}
+
+{% block main_content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-1">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Checkout</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Complete your purchase</p>
+        </div>
+    </div>
+</header>
+<!-- Section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-8">
+                <h2 class="fw-bolder mb-4">Order Summary</h2>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        {% if cart_items %}
+                            <ul class="list-group mb-3">
+                                {% for item in cart_items %}
+                                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                                        <div>
+                                            <h6 class="my-0">{{ item.product.name }}</h6>
+                                            <small class="text-muted">{{ item.quantity }} x ${{ item.product.price }}</small>
+                                        </div>
+                                        <span class="text-muted">${{ item.get_total_price }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <form method="post" action="{% url 'cart:checkout' %}">
+                                {% csrf_token %}
+                                <!-- Include payment and shipping details here -->
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Complete Purchase</button>
+                            </form>
+                        {% else %}
+                            <p class="text-muted">Your cart is empty.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

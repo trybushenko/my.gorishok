@@ -1,26 +1,74 @@
-// Function to show the popup
-function showAuthPopup() {
-  
-  document.getElementById('AuthPopup').style.display = 'block';
-}
+document.addEventListener('DOMContentLoaded', (event) => {
+    const showAuthPopupButton = document.getElementById('showAuthPopup');
+    const authPopup = document.getElementById('AuthPopup');
+    const closePopupButton = document.getElementById('closePopupButton');
+    const continueAsGuestButton = document.getElementById('continueAsGuestButton');
 
-// Function to hide the popup
-function hideAuthPopup() {
-  document.getElementById('AuthPopup').style.display = 'none';
-}
+    // Check if the user is authenticated by reading the data attribute
+    const userIsAuthenticated = document.querySelector('form').dataset.userAuthenticated === 'true';
 
-// Attach event listener to all buttons with the class "add-to-cart-button"
-document.querySelectorAll('.add-to-cart-button').forEach(button => {
-  button.addEventListener('click', function(event) {
-      event.preventDefault(); // Prevent default button action
-      showAuthPopup(); // Show the authentication popup
-  });
-});
+    function getCsrfToken() {
+        const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+        return csrfTokenElement ? csrfTokenElement.value : '';
+    }
 
-// Attach event listener to the close button in the popup
-document.getElementById('closePopupButton').addEventListener('click', hideAuthPopup);
+    // Function to show the popup
+    function showPopup() {
+        event.preventDefault();
+        authPopup.style.display = 'block';
+    }
 
-document.getElementById('loginButton').addEventListener('click', function() {
-  // Implement your login function here
-  hideAuthPopup(); // Hide the popup after the login action
+    // Function to hide the popup
+    function hidePopup() {
+        authPopup.style.display = 'none';
+    }
+
+    // Function to create a guest session and redirect to cart
+    function continueAsGuest() {
+        const csrfToken = getCsrfToken();
+        if (!csrfToken) {
+            console.error('CSRF token not found.');
+            return;
+        }
+
+        fetch('/user/continue_as_guest/', {  // Update URL here
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({})
+        }).then(response => response.json()).then(data => {
+            hidePopup();
+            window.location.href = data.redirect_url;
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Event listener for the cart button
+    showAuthPopupButton.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        // Check if user is authenticated (this part is server-side logic rendered into the template)
+        console.log(userIsAuthenticated);
+
+        if (!userIsAuthenticated) {
+            showPopup();
+        } else {
+            window.location.href = '/cart/'; // Replace '/cart' with the actual URL of your cart page
+            hidePopup();
+        }
+    });
+
+    closePopupButton.addEventListener('click', (event) => {
+        hidePopup();
+    });
+
+    continueAsGuestButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        continueAsGuest();
+        hidePopup();
+    });
 });

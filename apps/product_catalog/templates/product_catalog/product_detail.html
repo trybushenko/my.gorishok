@@ -38,14 +38,20 @@
                 <p class="lead">{{ product.description }}</p>
                 <div class="d-flex">
                     <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                    <button class="btn btn-outline-dark flex-shrink-0 add-to-cart-button" type="button">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-dark flex-shrink-0 add-to-cart-button" type="button" data-product-id="{{ product.id }}">
                         <i class="bi-cart-fill me-1"></i>
                         {% trans 'Add to cart' %}
                     </button>
                 </div>
+            
             </div>
         </div>
     </div>
+    <!-- Hidden form to include CSRF token -->
+    <form id="csrf-token-form" style="display:none;">
+        {% csrf_token %}
+    </form>
 </section>
 {% endblock %}
 
@@ -81,17 +87,7 @@
             </div>
         </div>
     </div>   
-</div>
-<div id="AuthPopup" class="popup" style="display: none;">
-    <div class="popup-content">
-        <span id="closePopupButton" class="btn btn-outline-dark mt-auto close-button">&times;</span>
-        <p class="lead">{% if user.is_authenticated %}You are logged in as {{ user.email }}.{% else %} You are not logged in.{% endif %}</p>
-        <a id="loginButton" class="btn btn-outline-dark mt-auto">Login</a>
-        <div class="continue-guest">
-            <p><a href="{% url 'home' %}">Continue as guest</a></p>
-        </div>
-    </div>
-</div>  
+</div> 
 {% endfor %}
 {% endblock %}
 

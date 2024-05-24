@@ -64,7 +64,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware'
+    'allauth.account.middleware.AccountMiddleware',
+    'apps.user_management.middleware.GuestSessionMiddleware'
 ]
 
 ROOT_URLCONF = 'my_gorishok.urls'

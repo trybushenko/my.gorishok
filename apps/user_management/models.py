@@ -70,6 +70,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+    is_guest = models.BooleanField(default=False)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('first_name', 'last_name')
 

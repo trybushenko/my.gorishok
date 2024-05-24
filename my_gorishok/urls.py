@@ -27,6 +27,8 @@ urlpatterns = [
     path('product_catalog/', include(('apps.product_catalog.urls', 'product_catalog'), namespace='product_catalog')),
     # endpoint that is responsible for user management
     path('accounts/', include('allauth.urls')),
+    path('user/', include(('apps.user_management.urls', 'user_management'), namespace='user_management')),
+    path('cart/', include(('apps.cart.urls', 'cart'), namespace='cart')),
     path('admin/', admin.site.urls),
     path('__debug__/', include('debug_toolbar.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
